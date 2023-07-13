@@ -12,20 +12,21 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
+    versionSpec: '14.x'
   displayName: 'Install Node.js'
 
 - script: |
-    cd src
     npm ci
-    npm run build
-  displayName: 'npm clean install and build'
+  displayName: 'npm clean install'
+  - script: |
+      npm run lint
+      npm run test
+    displayName: 'Run linting and tests'  
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
     contents: |
        src/*
-       public/*
     targetFolder: '$(Build.ArtifactStagingDirectory)'
   displayName: 'Copy files to artifact staging directory'
 
