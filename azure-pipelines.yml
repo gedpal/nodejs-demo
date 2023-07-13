@@ -21,9 +21,6 @@ steps:
   displayName: 'npm clean install'
 - script: |
     cd src
-    npm run start
-    npm run start-bg   
-    npm run watch
     npm run test-junit    
     npm run test
     npm run lint
