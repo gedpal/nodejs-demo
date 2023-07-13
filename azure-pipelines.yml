@@ -16,9 +16,11 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    cd src
     npm ci
   displayName: 'npm clean install'
 - script: |
+    cd src
     npm run lint
     npm run test
   displayName: 'Run linting and tests'  
