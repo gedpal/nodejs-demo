@@ -18,10 +18,10 @@ steps:
 - script: |
     npm ci
   displayName: 'npm clean install'
-  - script: |
-      npm run lint
-      npm run test
-    displayName: 'Run linting and tests'  
+- script: |
+    npm run lint
+    npm run test
+  displayName: 'Run linting and tests'  
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
