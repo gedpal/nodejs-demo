@@ -20,3 +20,18 @@ steps:
     npm ci
     npm run build
   displayName: 'npm clean install and build'
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: |
+       src/*
+       public/*
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy files to artifact staging directory'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    artifactName: nodejs-demo
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    publishLocation: 'pipeline'
+  displayName: 'Publish npm artifact'
