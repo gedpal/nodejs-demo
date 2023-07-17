@@ -30,7 +30,7 @@ steps:
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
     contents: |
-       src/*
+       src/**
     targetFolder: '$(Build.ArtifactStagingDirectory)'
   displayName: 'Copy files to artifact staging directory'
 
