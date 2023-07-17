@@ -16,16 +16,16 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    cd src
     npm ci
   displayName: 'npm clean install'
+  workingDirectory: 'src'
 - script: |
-    cd src
     npm run test-junit    
     npm run test
     npm run lint
     npm run lint-fix
-  displayName: 'Run linting and tests'  
+  displayName: 'Run linting and tests'
+  workingDirectory: 'src'
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
@@ -40,3 +40,4 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)'
     publishLocation: 'pipeline'
   displayName: 'Publish npm artifact'
+
