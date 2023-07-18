@@ -8,7 +8,7 @@ RUN mkdir -p /usr/Nodejsdemoapp
 WORKDIR /usr/Nodejsdemoapp
 
 # Copy the built artifacts to the container directory
-COPY . .
+COPY /src .
 
 # Install dependencies
 RUN npm ci
