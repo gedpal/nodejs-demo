@@ -5,7 +5,7 @@ FROM node:14-slim
 WORKDIR /usr/Nodejsdemoapp
 
 # Copy the built artifacts to the container directory
-COPY . .
+COPY /crc .
 
 # Install dependencies
 RUN npm ci
