@@ -50,8 +50,8 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    sourceFolder: '$(Pipeline.Workspace)/nodejs-demo'
-    contents: '/src'
+    sourceFolder: '$(Build.ArtifactStagingDirectory)/src'
+    contents: '**'
     targetFolder: '$(Build.SourcesDirectory)'
 
 - task: Docker@2
