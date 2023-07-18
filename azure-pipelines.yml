@@ -47,5 +47,5 @@ steps:
     containerRegistry: 'GPA DH connect'
     repository: 'gedpal/demo'
     command: 'buildAndPush'
-    Dockerfile: '/dockerfile'
+    Dockerfile: 'dockerfile'
     tags: '$(Build.BuildId)'
