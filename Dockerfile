@@ -1,6 +1,9 @@
 # Use a minimal Node.js image
 FROM node:14-slim
 
+# Create the /usr/Nodejsdemoapp directory in the container
+RUN mkdir -p /usr/Nodejsdemoapp
+
 # Set the working directory in the container
 WORKDIR /usr/Nodejsdemoapp
 
