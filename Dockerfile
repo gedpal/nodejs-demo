@@ -6,7 +6,7 @@ WORKDIR /usr/Nodejsdemoapp
 
 # Copy the built artifacts to the container directory
 COPY . .
-CMD ["ls /usr/Nodejsdemoapp"]
+CMD ["cd ./src"]
 
 # Install dependencies
 RUN npm ci
