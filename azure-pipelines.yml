@@ -42,11 +42,17 @@ steps:
     publishLocation: 'pipeline'
   displayName: 'Publish npm artifact'
 
-#- task: Docker@2
-#  displayName: 'Build and Push Docker Image'
-#  inputs:
-#    containerRegistry: 'GPA DH connect'
-#    repository: 'gedpal/demo'
-#    command: 'buildAndPush'
-#    Dockerfile: 'dockerfile'
-#    tags: '$(Build.BuildId)'
+- task: DownloadPipelineArtifact@2
+  inputs:
+    artifactName: 'nodejs-demo'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Download npm artifact'
+
+- task: Docker@2
+  displayName: 'Build and Push Docker Image'
+  inputs:
+    containerRegistry: 'GPA DH connect'
+    repository: 'gedpal/demo'
+    command: 'buildAndPush'
+    Dockerfile: '$(Build.ArtifactStagingDirectory)/Dockerfile'
+    tags: '$(Build.BuildId)'
