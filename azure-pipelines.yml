@@ -4,67 +4,67 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- manual
+- none
 #- main
 
 stages:
 - stage: Build
-displayName: Build image
-jobs:
-- job: Build
-  displayName: Build
-  pool:
-    vmImage: ubuntu-latest
-steps:
-- task: NodeTool@0
-inputs:
-  versionSpec: '14.x'
-displayName: 'Install Node.js'
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '14.x'
+      displayName: 'Install Node.js'
 
-- script: |
-  npm ci
-displayName: 'npm clean install'
-workingDirectory: 'src'
-- script: |
-  npm run test-junit    
-  npm run test
-  npm run lint
-  npm run lint-fix
-displayName: 'Run linting and tests'
-workingDirectory: 'src'
-- task: CopyFiles@2
-inputs:
-  sourceFolder: '$(Build.SourcesDirectory)'
-  contents: |
-      src/**
-      Dockerfile
-  targetFolder: '$(Build.ArtifactStagingDirectory)'
-displayName: 'Copy files to artifact staging directory'
+    - script: |
+        npm ci
+      displayName: 'npm clean install'
+      workingDirectory: 'src'
+    - script: |
+        npm run test-junit    
+        npm run test
+        npm run lint
+        npm run lint-fix
+      displayName: 'Run linting and tests'
+      workingDirectory: 'src'
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: |
+          src/**
+          Dockerfile
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Copy files to artifact staging directory'
 
-- task: PublishPipelineArtifact@1
-inputs:
-  artifactName: nodejs-demo
-  targetPath: '$(Build.ArtifactStagingDirectory)'
-  publishLocation: 'pipeline'
-displayName: 'Publish npm artifact'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        artifactName: nodejs-demo
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        publishLocation: 'pipeline'
+      displayName: 'Publish npm artifact'
 
-- task: DownloadPipelineArtifact@2
-inputs:
-  artifactName: 'nodejs-demo'
-  targetPath: '$(Build.ArtifactStagingDirectory)'
-displayName: 'Download npm artifact'
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifactName: 'nodejs-demo'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Download npm artifact'
 
-#- task: CopyFiles@2
-#  inputs:
-#    sourceFolder: '$(Build.ArtifactStagingDirectory)/src'
-#    contents: '**'
-#    targetFolder: '$(Build.SourcesDirectory)'
+    #- task: CopyFiles@2
+    #  inputs:
+    #    sourceFolder: '$(Build.ArtifactStagingDirectory)/src'
+    #    contents: '**'
+    #    targetFolder: '$(Build.SourcesDirectory)'
 
-- task: Docker@2
-displayName: 'Build and Push Docker Image'
-inputs:
-  containerRegistry: 'GPA DH connect'
-  repository: 'gedpal/demo'
-  command: 'buildAndPush'
-  Dockerfile: '$(Build.ArtifactStagingDirectory)/Dockerfile'
-  tags: '$(Build.BuildId)'
+    - task: Docker@2
+      displayName: 'Build and Push Docker Image'
+      inputs:
+        containerRegistry: 'GPA DH connect'
+        repository: 'gedpal/demo'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.ArtifactStagingDirectory)/Dockerfile'
+        tags: '$(Build.BuildId)'
