@@ -13,5 +13,11 @@ COPY /src .
 # Install dependencies
 RUN npm ci
 
+# Set port environment variable
+ENV PORT=3000
+
+# Expose port
+EXPOSE 3000
+
 # Start the Node.js app
 CMD ["npm", "run", "start"]
