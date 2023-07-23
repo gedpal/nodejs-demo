@@ -1,1 +1,19 @@
-
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: demoapp 
+spec:
+  replicas: #replicaNo#
+  selector:
+    matchLabels:
+      app: demoapp
+  template:
+    metadata:
+      labels:
+        app: demoapp 
+    spec:
+      containers:
+        - name: demoapp 
+          image: k8sdemoacr.azurecr.io/demoapp
+          ports:
+          - containerPort: 3000
