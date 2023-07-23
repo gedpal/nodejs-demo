@@ -92,7 +92,7 @@ stages:
             inputs:
               buildType: 'current'
               artifactName: 'manifests'
-              targetPath: '$(Pipeline.Workspace)/manifests'
+              targetPath: '$(Pipeline.Workspace)/Manifests'
           - task: KubernetesManifest@0
             inputs:
               action: 'createSecret'
@@ -103,7 +103,7 @@ stages:
           - task: replacetokens@3
             displayName: Replace Tokens
             inputs:
-              rootDirectory: '$(Pipeline.Workspace)/manifests/'
+              rootDirectory: '$(Pipeline.Workspace)/Manifests/'
               targetFiles: 'deployment.yml'
               encoding: 'auto'
               writeBOM: true
@@ -119,7 +119,7 @@ stages:
               action: 'deploy'
               namespace: 'default'
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/Manifests/deployment.yml
+                $(Pipeline.Workspace)/Manifests/service.yml
               containers: '$(acrdevurl)/$(imageRepo):$(tag)'
               imagePullSecrets: '$(acrsecret)'
