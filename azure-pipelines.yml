@@ -6,7 +6,9 @@
 trigger:
 - none
 #- main
-
+variables:
+  imageRepo: demoapp
+  tag: '$(Build.BuildId)'
 stages:
 - stage: Build
   displayName: Build image
@@ -67,4 +69,57 @@ stages:
         repository: 'gedpal/demo'
         command: 'buildAndPush'
         Dockerfile: '$(Build.ArtifactStagingDirectory)/Dockerfile'
-        tags: '$(Build.BuildId)'
+        tags: $(tag)
+        
+- stage: Deploy
+  displayName: Deploy to Dev
+  dependsOn: Build
+  variables:
+    acrsecret: k8sdemoacrauth
+    acrdevurl: 'k8sdemoacr.azurecr.io'
+    replicaNo: 3
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy to AKS
+    environment: 'k8sdev.demoapp'
+    pool: 
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'manifests'
+              targetPath: '$(Pipeline.Workspace)/manifests'
+          - task: KubernetesManifest@0
+            inputs:
+              action: 'createSecret'
+              namespace: 'default'
+              secretType: 'dockerRegistry'
+              secretName: '$(acrsecret)'
+              dockerRegistryEndpoint: 'K8SDemoAppACR'
+          - task: replacetokens@3
+            displayName: Replace Tokens
+            inputs:
+              rootDirectory: '$(Pipeline.Workspace)/manifests/'
+              targetFiles: 'deployment.yml'
+              encoding: 'auto'
+              writeBOM: true
+              actionOnMissing: 'warn'
+              keepToken: false
+              tokenPrefix: '#'
+              tokenSuffix: '#'
+              useLegacyPattern: false
+              enableTransforms: false
+              enableTelemetry: true
+          - task: KubernetesManifest@0
+            inputs:
+              action: 'deploy'
+              namespace: 'default'
+              manifests: |
+                $(Pipeline.Workspace)/manifests/deployment.yml
+                $(Pipeline.Workspace)/manifests/service.yml
+              containers: '$(acrdevurl)/$(imageRepo):$(tag)'
+              imagePullSecrets: '$(acrsecret)'
