@@ -114,8 +114,11 @@ stages:
               action: 'deploy'
               namespace: 'demoapp'
               manifests: |
-                $(Pipeline.Workspace)/Manifests/deployment.yml
-                $(Pipeline.Workspace)/Manifests/service.yml
+                /Manifests/deployment.yml
+                /Manifests/service.yml
+
+#                $(Pipeline.Workspace)/Manifests/deployment.yml
+#                $(Pipeline.Workspace)/Manifests/service.yml
               containers: 'gedpal/demo:latest'
 #               containers: '$(acrdevurl)/$(imageRepo):$(tag)'
 #               imagePullSecrets: '$(acrsecret)'
