@@ -83,11 +83,11 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              buildType: 'current'
-              artifactName: 'manifests'
-              targetPath: '$(Pipeline.Workspace)/Manifests'
+          # - task: DownloadPipelineArtifact@2
+          #   inputs:
+          #     buildType: 'current'
+          #     artifactName: 'manifests'
+          #     targetPath: '$(Pipeline.Workspace)/Manifests'
 #           - task: KubernetesManifest@0
 #             inputs:
 #               action: 'createSecret'
