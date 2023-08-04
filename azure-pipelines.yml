@@ -66,28 +66,28 @@ stages:
         tags: 
           latest,$(tag)
         
-# - stage: Deploy
-#   displayName: Deploy to Dev
-#   dependsOn: Build
+- stage: Deploy
+  displayName: Deploy to Dev
+  dependsOn: Build
 #   variables:
 #     acrsecret: k8sdemoacrauth
 #     acrdevurl: 'k8sdemoacr.azurecr.io'
 #     replicaNo: 3
-#   jobs:
-#   - deployment: Deploy
-#     displayName: Deploy to AKS
-#     environment: 'k8sdev.demoapp'
-#     pool: 
-#       vmImage: ubuntu-latest
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - task: DownloadPipelineArtifact@2
-#             inputs:
-#               buildType: 'current'
-#               artifactName: 'manifests'
-#               targetPath: '$(Pipeline.Workspace)/Manifests'
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy to AKS
+    environment: 'k8sdev.demoapp'
+    pool: 
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'manifests'
+              targetPath: '$(Pipeline.Workspace)/Manifests'
 #           - task: KubernetesManifest@0
 #             inputs:
 #               action: 'createSecret'
@@ -109,12 +109,13 @@ stages:
 #               useLegacyPattern: false
 #               enableTransforms: false
 #               enableTelemetry: true
-#           - task: KubernetesManifest@0
-#             inputs:
-#               action: 'deploy'
-#               namespace: 'default'
-#               manifests: |
-#                 $(Pipeline.Workspace)/Manifests/deployment.yml
-#                 $(Pipeline.Workspace)/Manifests/service.yml
+          - task: KubernetesManifest@0
+            inputs:
+              action: 'deploy'
+              namespace: 'demoapp'
+              manifests: |
+                $(Pipeline.Workspace)/Manifests/deployment.yml
+                $(Pipeline.Workspace)/Manifests/service.yml
+              containers: 'gedpal/demo:latest'
 #               containers: '$(acrdevurl)/$(imageRepo):$(tag)'
 #               imagePullSecrets: '$(acrsecret)'
