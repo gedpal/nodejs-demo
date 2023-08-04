@@ -64,8 +64,8 @@ stages:
         command: 'buildAndPush'
         Dockerfile: '$(Build.ArtifactStagingDirectory)/Dockerfile'
         tags: 
-          latest
-          $(tag)
+          -latest
+          -$(tag)
         
 # - stage: Deploy
 #   displayName: Deploy to Dev
