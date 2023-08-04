@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: demoapp 
 spec:
-  replicas: #replicaNo#
+  replicas: 3
   selector:
     matchLabels:
       app: demoapp
@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: demoapp 
-          image: k8sdemoacr.azurecr.io/demoapp
+          image: gedpal/demo:latest
           ports:
           - containerPort: 3000
