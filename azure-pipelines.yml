@@ -63,7 +63,9 @@ stages:
         repository: 'gedpal/demo'
         command: 'buildAndPush'
         Dockerfile: '$(Build.ArtifactStagingDirectory)/Dockerfile'
-        tags: $(tag)
+        tags: 
+          latest
+          $(tag)
         
 # - stage: Deploy
 #   displayName: Deploy to Dev
