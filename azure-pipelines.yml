@@ -114,8 +114,8 @@ stages:
               action: 'deploy'
               namespace: 'demoapp'
               manifests: |
-                /Manifests/deployment.yml
-                /Manifests/service.yml
+                $(Build.SourcesDirectory)/Manifests/deployment.yml
+                $(Build.SourcesDirectory)/Manifests/service.yml
 
 #                $(Pipeline.Workspace)/Manifests/deployment.yml
 #                $(Pipeline.Workspace)/Manifests/service.yml
