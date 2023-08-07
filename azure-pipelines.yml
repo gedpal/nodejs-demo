@@ -70,7 +70,7 @@ stages:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/s/Kubernetes'
-        artifact: 'manifests'
+        artifact: 'Manifests'
         publishLocation: 'pipeline'
       displayName: 'Publish K8s manifest artifact for token replacement'    
 
@@ -94,7 +94,7 @@ stages:
            - task: DownloadPipelineArtifact@2
              inputs:
                buildType: 'current'
-               artifactName: 'manifests'
+               artifactName: 'Manifests'
                targetPath: '$(Pipeline.Workspace)/Manifests'
 #           - task: KubernetesManifest@0
 #             inputs:
