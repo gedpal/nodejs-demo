@@ -6,6 +6,8 @@
 trigger:
 - none
 #- main
+resources:
+- repo: self
 variables:
   imageRepo: demoapp
   tag: '$(Build.BuildId)'
