@@ -69,7 +69,7 @@ stages:
           latest,$(tag)
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/s/Kubernetes'
+        targetPath: '$(Pipeline.Workspace)/s/Manifests'
         artifact: 'Manifests'
         publishLocation: 'pipeline'
       displayName: 'Publish K8s manifest artifact for token replacement'    
