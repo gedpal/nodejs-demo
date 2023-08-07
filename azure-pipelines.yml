@@ -65,14 +65,20 @@ stages:
         Dockerfile: '$(Build.ArtifactStagingDirectory)/Dockerfile'
         tags: 
           latest,$(tag)
-        
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/s/Kubernetes'
+        artifact: 'manifests'
+        publishLocation: 'pipeline'
+      displayName: 'Publish K8s manifest artifact for token replacement'    
+
 - stage: Deploy
   displayName: Deploy to Dev
   dependsOn: Build
-#   variables:
+  variables:
 #     acrsecret: k8sdemoacrauth
 #     acrdevurl: 'k8sdemoacr.azurecr.io'
-#     replicaNo: 3
+    replicaNo: 3
   jobs:
   - deployment: Deploy
     displayName: Deploy to AKS
@@ -83,11 +89,11 @@ stages:
       runOnce:
         deploy:
           steps:
-          # - task: DownloadPipelineArtifact@2
-          #   inputs:
-          #     buildType: 'current'
-          #     artifactName: 'manifests'
-          #     targetPath: '$(Pipeline.Workspace)/Manifests'
+           - task: DownloadPipelineArtifact@2
+             inputs:
+               buildType: 'current'
+               artifactName: 'manifests'
+               targetPath: '$(Pipeline.Workspace)/Manifests'
 #           - task: KubernetesManifest@0
 #             inputs:
 #               action: 'createSecret'
@@ -95,32 +101,31 @@ stages:
 #               secretType: 'dockerRegistry'
 #               secretName: '$(acrsecret)'
 #               dockerRegistryEndpoint: 'K8SDemoAppACR'
-#           - task: replacetokens@3
-#             displayName: Replace Tokens
-#             inputs:
-#               rootDirectory: '$(Pipeline.Workspace)/Manifests/'
-#               targetFiles: 'deployment.yml'
-#               encoding: 'auto'
-#               writeBOM: true
-#               actionOnMissing: 'warn'
-#               keepToken: false
-#               tokenPrefix: '#'
-#               tokenSuffix: '#'
-#               useLegacyPattern: false
-#               enableTransforms: false
-#               enableTelemetry: true
-          - checkout: self
-          - script: dir $(Build.SourcesDirectory)/Manifests
-          - task: KubernetesManifest@0
-            inputs:
+           - task: replacetokens@3
+             displayName: Replace Tokens
+             inputs:
+               rootDirectory: '$(Pipeline.Workspace)/Manifests/'
+               targetFiles: 'deployment.yml'
+               encoding: 'auto'
+               writeBOM: true
+               actionOnMissing: 'warn'
+               keepToken: false
+               tokenPrefix: '#'
+               tokenSuffix: '#'
+               useLegacyPattern: false
+               enableTransforms: false
+               enableTelemetry: true
+#          - checkout: self
+#          - script: dir $(Build.SourcesDirectory)/Manifests
+           - task: KubernetesManifest@0
+             inputs:
               action: 'deploy'
               namespace: 'demoapp'
-              manifests: |
-                Manifests/deployment.yml
-                Manifests/service.yml
-
-#                $(Pipeline.Workspace)/Manifests/deployment.yml
-#                $(Pipeline.Workspace)/Manifests/service.yml
+              manifests:
+#                Manifests/deployment.yml
+#                Manifests/service.yml
+                $(Pipeline.Workspace)/Manifests/deployment.yml
+                $(Pipeline.Workspace)/Manifests/service.yml
               containers: 'gedpal/demo:latest'
 #               containers: '$(acrdevurl)/$(imageRepo):$(tag)'
 #               imagePullSecrets: '$(acrsecret)'
