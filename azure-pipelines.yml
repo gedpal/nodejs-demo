@@ -123,7 +123,7 @@ stages:
              inputs:
               action: 'deploy'
               namespace: 'demoapp'
-              manifests:
+              manifests: |
 #                Manifests/deployment.yml
 #                Manifests/service.yml
                 $(Pipeline.Workspace)/Manifests/deployment.yml
