@@ -117,8 +117,6 @@ stages:
                useLegacyPattern: false
                enableTransforms: false
                enableTelemetry: true
-#          - checkout: self
-#          - script: dir $(Build.SourcesDirectory)/Manifests
            - task: KubernetesManifest@0
              inputs:
                action: 'deploy'
