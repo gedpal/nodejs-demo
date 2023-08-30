@@ -1,3 +1,7 @@
+resource "azurerm_resource_group" "aks_rg" {
+  name     = "Gediminas_Palskis_rg"
+  location = "West Europe"
+}
 resource "azurerm_kubernetes_cluster" "aks_cluster" {
   name                = "gpatfaks1"
   location            = azurerm_resource_group.aks_rg.location
@@ -10,30 +14,20 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     vm_size    = "Standard_B2s"  # Smallest VM size
   }
 
-  service_principal {
-    client_id     = "NotNeededForExistingServiceConnection"
-    client_secret = "NotNeededForExistingServiceConnection"
+  identity {
+    type = "SystemAssigned"
   }
-
-  addon_profile {
-    oms_agent {
-      enabled = false
-    }
-
-    azure_policy {
-      enabled = false
-    }
-
-    ingress_application_gateway {
-      enabled = true
-    }
+  tags = {
+    Environment = "Dev"
   }
 }
+output "client_certificate" {
+  value     = azurerm_kubernetes_cluster.example.kube_config.0.client_certificate
+  sensitive = true
+}
 
-resource "azurerm_kubernetes_cluster_node_pool" "aks_np" {
-  name                = "aksnp"
-  kubernetes_cluster = azurerm_kubernetes_cluster.aks_cluster.id
-  vm_size             = "Standard_B1s"  # Smallest VM size
-  node_count          = 1
-  enable_auto_scaling = false
+output "kube_config" {
+  value = azurerm_kubernetes_cluster.example.kube_config_raw
+
+  sensitive = true
 }
