@@ -36,7 +36,7 @@ stages:
         command: 'plan'
         workingDirectory: '/IaC-tf'
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
-        commandOptions: '-var-file=myvars.tfvars'
+        commandOptions: '-out=tfplan'
       displayName: 'Terraform plan'
     
   - job: Apply
@@ -49,6 +49,6 @@ stages:
         command: 'apply'
         workingDirectory: '/IaC-tf'
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
-        commandOptions: '-var-file=myvars.tfvars'
+        commandOptions: 'tfplan'
       displayName: 'Terraform apply'  
 
