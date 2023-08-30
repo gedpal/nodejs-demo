@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
+  skip_provider_registration = false
   features {}
 }
 resource "azurerm_resource_group" "aks_rg" {
