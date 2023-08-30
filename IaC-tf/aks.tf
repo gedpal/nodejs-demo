@@ -1,4 +1,4 @@
-resource "azurerm_kubernetes_cluster" "aks_cluster" {
+resource "azurerm_kubernetes_cluster" "gpatfaks1" {
   name                = "gpatfaks1"
   location            = azurerm_resource_group.aks_rg.location
   resource_group_name = azurerm_resource_group.aks_rg.name
