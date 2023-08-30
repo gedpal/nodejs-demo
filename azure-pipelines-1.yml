@@ -20,7 +20,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: '/IaC-tf'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
         backendServiceArm: 'AzureRM-sp-Gediminas-Palskis'
         backendAzureRmResourceGroupName: 'Gediminas_Palskis_rg'
         backendAzureRmStorageAccountName: 'gedpalsa1'
@@ -34,7 +34,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        workingDirectory: '/IaC-tf'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
         commandOptions: '-out=tfplan'
       displayName: 'Terraform plan'
@@ -47,7 +47,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        workingDirectory: '/IaC-tf'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
         commandOptions: 'tfplan'
       displayName: 'Terraform apply'  
