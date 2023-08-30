@@ -24,10 +24,7 @@ stages:
         backendAzureRmKey: 'tf/terraform.tfstate'
       displayName: 'Terraform init'
   - job: Plan
-    displayName: Plan
     dependsOn: Init
-    pool:
-      vmImage: ubuntu-latest
     steps:
     - task: TerraformTaskV4@4
       inputs:
@@ -39,11 +36,8 @@ stages:
       displayName: 'Terraform plan'
     
   - job: Apply
-    displayName: Apply
     dependsOn: Plan
     condition: succeeded()
-    pool:
-      vmImage: ubuntu-latest
     steps:
     - task: TerraformTaskV4@4
       inputs:
