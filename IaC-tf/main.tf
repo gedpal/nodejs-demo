@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = false
+  skip_provider_registration = true
   features {}
 }
 resource "azurerm_resource_group" "Gediminas_Palskis_rg" {
