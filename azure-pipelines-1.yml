@@ -8,8 +8,8 @@ stages:
 - stage: IaC_TF
   displayName: Terraform infrastructure
   jobs:
-  - job: Init
-    displayName: Init
+  - job: Terraform
+    displayName: Terraform Deployment
     pool:
       vmImage: ubuntu-latest
     steps:
@@ -27,9 +27,6 @@ stages:
         backendAzureRmContainerName: 'tf-state'
         backendAzureRmKey: 'tf/terraform.tfstate'
       displayName: 'Terraform init'
-  - job: Plan
-    dependsOn: Init
-    steps:
     - task: TerraformTaskV4@4
       inputs:
         provider: 'azurerm'
@@ -38,11 +35,6 @@ stages:
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
         commandOptions: '-out=tfplan'
       displayName: 'Terraform plan'
-    
-  - job: Apply
-    dependsOn: Plan
-    condition: succeeded()
-    steps:
     - task: TerraformTaskV4@4
       inputs:
         provider: 'azurerm'
@@ -50,5 +42,5 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
         commandOptions: 'tfplan'
-      displayName: 'Terraform apply'  
+      displayName: 'Terraform apply'
 
