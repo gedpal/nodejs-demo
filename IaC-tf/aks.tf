@@ -1,7 +1,3 @@
-resource "azurerm_resource_group" "aks_rg" {
-  name     = "Gediminas_Palskis_rg"
-  location = "West Europe"
-}
 resource "azurerm_kubernetes_cluster" "aks_cluster" {
   name                = "gpatfaks1"
   location            = azurerm_resource_group.aks_rg.location
