@@ -20,6 +20,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
+        workingDirectory: '/IaC-tf'
         backendServiceArm: 'AzureRM-sp-Gediminas-Palskis'
         backendAzureRmResourceGroupName: 'Gediminas_Palskis_rg'
         backendAzureRmStorageAccountName: 'gedpalsa1'
