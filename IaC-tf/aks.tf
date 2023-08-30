@@ -1,7 +1,7 @@
 resource "azurerm_kubernetes_cluster" "gpatfaks1" {
   name                = "gpatfaks1"
-  location            = azurerm_resource_group.aks_rg.location
-  resource_group_name = azurerm_resource_group.aks_rg.name
+  location            = azurerm_resource_group.Gediminas_Palskis_rg.location
+  resource_group_name = azurerm_resource_group.Gediminas_Palskis_rg.name
   dns_prefix          = "gpatfaks1"
 
   default_node_pool {
