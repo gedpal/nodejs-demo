@@ -23,5 +23,34 @@ stages:
         backendAzureRmContainerName: 'tf-state'
         backendAzureRmKey: 'tf/terraform.tfstate'
       displayName: 'Terraform init'
-
+    - job: Plan
+    displayName: Plan
+    dependsOn: Init
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '/IaC-tf'
+        environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
+        commandOptions: '-var-file=myvars.tfvars'
+      displayName: 'Terraform plan'
+    
+  - job: Apply
+    displayName: Apply
+    dependsOn: Plan
+    condition: succeeded()
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '/IaC-tf'
+        environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
+        commandOptions: '-var-file=myvars.tfvars'
+      displayName: 'Terraform apply'  
 
