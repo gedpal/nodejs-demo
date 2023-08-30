@@ -5,7 +5,7 @@ resources:
 - repo: self
 
 stages:
-- stage: IaC-TF
+- stage: IaC_TF
   displayName: Terraform infrastructure
   jobs:
   - job: Init
