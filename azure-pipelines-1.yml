@@ -23,7 +23,7 @@ stages:
         backendAzureRmContainerName: 'tf-state'
         backendAzureRmKey: 'tf/terraform.tfstate'
       displayName: 'Terraform init'
-    - job: Plan
+  - job: Plan
     displayName: Plan
     dependsOn: Init
     pool:
