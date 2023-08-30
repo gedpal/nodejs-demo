@@ -1,14 +1,27 @@
 trigger:
-#- main
 - none
-pool:
-  vmImage: ubuntu-latest
+#- main
+resources:
+- repo: self
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+- stage: IaC-TF
+  displayName: Terraform infrastructure
+  jobs:
+  - job: Init
+    displayName: Init
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'AzureRM-sp-Gediminas-Palskis'
+        backendAzureRmResourceGroupName: 'Gediminas_Palskis_rg'
+        backendAzureRmStorageAccountName: 'gedpalsa1'
+        backendAzureRmContainerName: 'tf-state'
+        backendAzureRmKey: 'tf/terraform.tfstate'
+      displayName: 'Terraform init'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+
