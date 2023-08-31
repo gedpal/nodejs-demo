@@ -8,7 +8,7 @@ resource "azurerm_kubernetes_cluster" "gpatfaks1" {
     name       = "default"
     node_count = 1
 #    vm_size    = "Standard_B2als_v2" <- hit limits :)
-    vm_size    = Standard_D2_v2
+    vm_size    = "Standard_D2_v2"
   }
 
   identity {
