@@ -32,6 +32,6 @@ resource "azurerm_container_registry" "gpatfacr1" {
   name                     = "gpatfacr1"
   resource_group_name      = data.azurerm_resource_group.Gediminas_Palskis_rg.name
   location                 = data.azurerm_resource_group.Gediminas_Palskis_rg.location
-  sku                      = "free"
+  sku                      = "Basic"
   admin_enabled            = false
 }
