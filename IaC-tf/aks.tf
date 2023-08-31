@@ -1,11 +1,7 @@
-resource "azurerm_resource_group" "gpa_tf_rg" {
-  name     = "gpa_tf_rg"
-  location = "West Europe"
-}
 resource "azurerm_kubernetes_cluster" "gpatfaks1" {
   name                = "gpatfaks1"
-  location            = azurerm_resource_group.gpa_tf_rg.location
-  resource_group_name = azurerm_resource_group.gpa_tf_rg.name
+  location            = data.azurerm_resource_group.Gediminas_Palskis_rg.location
+  resource_group_name = data.azurerm_resource_group.Gediminas_Palskis_rg.name
   dns_prefix          = "gpatfaks1"
 
   default_node_pool {
