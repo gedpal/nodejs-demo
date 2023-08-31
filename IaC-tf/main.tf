@@ -10,6 +10,9 @@ provider "azurerm" {
   skip_provider_registration = true
   features {}
 }
+provider "azuread" {
+  version = "~>0.7"
+}
 data "azurerm_resource_group" "Gediminas_Palskis_rg" {
   name = "Gediminas_Palskis_rg"
 }
