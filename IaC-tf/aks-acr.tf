@@ -4,14 +4,6 @@ resource "azurerm_kubernetes_cluster" "gpatfaks1" {
   resource_group_name = data.azurerm_resource_group.Gediminas_Palskis_rg.name
   dns_prefix          = "gpatfaks1"
 
-resource "azurerm_container_registry" "gpatfacr1" {
-  name                     = "gpatfacr1"
-  resource_group_name      = data.azurerm_resource_group.Gediminas_Palskis_rg.name
-  location                 = data.azurerm_resource_group.Gediminas_Palskis_rg.location
-  sku                      = "free"
-  admin_enabled            = false
-}
-
   default_node_pool {
     name       = "default"
     node_count = 1
@@ -35,4 +27,11 @@ output "kube_config" {
   value = azurerm_kubernetes_cluster.gpatfaks1.kube_config_raw
 
   sensitive = true
+}
+resource "azurerm_container_registry" "gpatfacr1" {
+  name                     = "gpatfacr1"
+  resource_group_name      = data.azurerm_resource_group.Gediminas_Palskis_rg.name
+  location                 = data.azurerm_resource_group.Gediminas_Palskis_rg.location
+  sku                      = "free"
+  admin_enabled            = false
 }
