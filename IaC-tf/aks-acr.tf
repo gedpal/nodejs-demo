@@ -34,6 +34,9 @@ resource "azurerm_container_registry" "gpatfacr1" {
   location                 = data.azurerm_resource_group.Gediminas_Palskis_rg.location
   sku                      = "Basic"
   admin_enabled            = false
+  identity {
+    type = "SystemAssigned"
+  }
 }
 resource "azurerm_role_assignment" "roleassign" {
   principal_id                     =  azurerm_kubernetes_cluster.gpatfaks1.kubelet_identity[0].object_id
