@@ -135,9 +135,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     os_disk_size_gb = var.aks_agent_os_disk_size
     vnet_subnet_id  = data.azurerm_subnet.kubesubnet.id
   }
-    role_based_access_control {
-    enabled = var.aks_enable_rbac
-  }
+
   identity {
     type = "SystemAssigned"
   }
@@ -149,6 +147,9 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   dns_service_ip     = var.aks_dns_service_ip
   docker_bridge_cidr = var.aks_docker_bridge_cidr
   service_cidr       = var.aks_service_cidr
+  }
+  role_based_access_control {
+  enabled = var.aks_enable_rbac
   }
 }
 
