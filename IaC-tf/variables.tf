@@ -117,3 +117,9 @@ variable "vm_username" {
   description = "User name for the VM"
   default     = "gpavmuser1"
 }
+
+variable "acr_name" {
+  type        = string
+  description = "Name for the ACR"
+  default     = "gpatfacr1"
+}
