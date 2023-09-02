@@ -102,8 +102,8 @@ variable "aks_docker_bridge_cidr" {
 
 variable "aks_enable_rbac" {
   type        = bool
-  description = "Enable RBAC on the AKS cluster. Defaults to false."
-  default     = "false"
+  description = "Enable RBAC on the AKS cluster. Defaults to true."
+  default     = "true"
 }
 
 variable "msi_id" {
