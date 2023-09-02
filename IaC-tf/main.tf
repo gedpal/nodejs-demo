@@ -124,6 +124,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     ssh_key {
       key_data = jsondecode(azapi_resource_action.ssh_public_key_gen.output).publicKey
     }
+  }
   default_node_pool {
     name       = "agentpool"
     node_count = var.aks_agent_count
