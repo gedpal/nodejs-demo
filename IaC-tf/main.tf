@@ -1,4 +1,7 @@
 # Locals block for hardcoded names
+data "azurerm_resource_group" "rg" {
+  name = "Gediminas_Palskis_rg"
+}
 locals {
   backend_address_pool_name      = "${azurerm_virtual_network.test.name}-beap"
   frontend_port_name             = "${azurerm_virtual_network.test.name}-feport"
@@ -11,9 +14,8 @@ locals {
 
 # User Assigned Identities 
 resource "azurerm_user_assigned_identity" "testIdentity" {
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
   name = "gpaidentity1"
 }
 
