@@ -27,6 +27,3 @@ provider "azurerm" {
 provider "azuread" {
   version = "~>0.7"
 }
-data "azurerm_resource_group" "rg" {
-  name = "Gediminas_Palskis_rg"
-}
