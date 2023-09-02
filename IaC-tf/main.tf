@@ -21,8 +21,8 @@ resource "azurerm_user_assigned_identity" "testIdentity" {
 
 resource "azurerm_virtual_network" "test" {
   name                = var.virtual_network_name
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
   address_space       = [var.virtual_network_address_prefix]
 
   subnet {
@@ -49,16 +49,16 @@ data "azurerm_subnet" "appgwsubnet" {
 # Public Ip 
 resource "azurerm_public_ip" "test" {
   name                = "publicIp1"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
 }
 
 resource "azurerm_application_gateway" "network" {
   name                = var.app_gateway_name
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
 
   sku {
     name     = var.app_gateway_sku
