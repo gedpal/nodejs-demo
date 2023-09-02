@@ -148,9 +148,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   docker_bridge_cidr = var.aks_docker_bridge_cidr
   service_cidr       = var.aks_service_cidr
   }
-  role_based_access_control {
-  enabled = var.aks_enable_rbac
-  }
 }
 
 resource "azurerm_container_registry" "acr1" {
@@ -167,5 +164,5 @@ resource "azurerm_container_registry" "acr1" {
   principal_id                     =  azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
   role_definition_name             = "AcrPull"
   scope                            = azurerm_container_registry.acr1.id
-  skip_service_principal_aad_check = true
+#  skip_service_principal_aad_check = true
 }

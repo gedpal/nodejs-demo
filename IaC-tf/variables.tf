@@ -100,12 +100,6 @@ variable "aks_docker_bridge_cidr" {
   default     = "172.17.0.1/16"
 }
 
-variable "aks_enable_rbac" {
-  type        = bool
-  description = "Enable RBAC on the AKS cluster. Defaults to true."
-  default     = "true"
-}
-
 variable "msi_id" {
   type        = string
   description = "The Managed Service Identity ID. Set this value if you're running this example using Managed Identity as the authentication method."
