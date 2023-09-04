@@ -1,0 +1,127 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- none
+#- main
+resources:
+- repo: self
+variables:
+  imageRepo: demoapp
+  tag: '$(Build.BuildId)'
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '14.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm ci
+      displayName: 'npm clean install'
+      workingDirectory: 'src'
+    - script: |
+        npm run test-junit    
+        npm run test
+        npm run lint
+        npm run lint-fix
+      displayName: 'Run linting and tests'
+      workingDirectory: 'src'
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(Build.SourcesDirectory)'
+        contents: |
+          src/**
+          Dockerfile
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Copy files to artifact staging directory'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        artifactName: nodejs-demo
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        publishLocation: 'pipeline'
+      displayName: 'Publish npm artifact'
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifactName: 'nodejs-demo'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Download npm artifact'
+
+    - task: Docker@2
+      displayName: 'Build and Push Docker Image'
+      inputs:
+        containerRegistry: 'GPA DH connect'
+        repository: 'gedpal/demo'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.ArtifactStagingDirectory)/Dockerfile'
+        tags: 
+          latest,$(tag)
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/s/Manifests'
+        artifact: 'Manifests'
+        publishLocation: 'pipeline'
+      displayName: 'Publish K8s manifest artifact for token replacement'    
+
+- stage: Deploy
+  displayName: Deploy to Dev
+  dependsOn: Build
+  variables:
+#     acrsecret: k8sdemoacrauth
+#     acrdevurl: 'k8sdemoacr.azurecr.io'
+    replicaNo: 3
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy to AKS
+    environment: 'k8sdev.demoapp'
+    pool: 
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+           - task: DownloadPipelineArtifact@2
+             inputs:
+               buildType: 'current'
+               artifactName: 'Manifests'
+               targetPath: '$(Pipeline.Workspace)/Manifests'
+#           - task: KubernetesManifest@0
+#             inputs:
+#               action: 'createSecret'
+#               namespace: 'default'
+#               secretType: 'dockerRegistry'
+#               secretName: '$(acrsecret)'
+#               dockerRegistryEndpoint: 'K8SDemoAppACR'
+           - task: replacetokens@3
+             displayName: Replace Tokens
+             inputs:
+               rootDirectory: '$(Pipeline.Workspace)/Manifests/'
+               targetFiles: 'deployment.yml'
+               encoding: 'auto'
+               writeBOM: true
+               actionOnMissing: 'warn'
+               keepToken: false
+               tokenPrefix: '#'
+               tokenSuffix: '#'
+               useLegacyPattern: false
+               enableTransforms: false
+               enableTelemetry: true
+           - task: KubernetesManifest@0
+             inputs:
+               action: 'deploy'
+               namespace: 'demoapp'
+               manifests: |
+                 $(Pipeline.Workspace)/Manifests/deployment.yml
+                 $(Pipeline.Workspace)/Manifests/service.yml
+               containers: 'gedpal/demo:latest'
