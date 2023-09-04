@@ -11,7 +11,7 @@ WORKDIR /usr/Nodejsdemoapp
 COPY /src .
 
 # Install dependencies
-RUN npm ci --production
+RUN npm ci
 
 # Set port environment variable
 ENV PORT=3000
