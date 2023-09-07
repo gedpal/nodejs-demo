@@ -1,6 +1,7 @@
 trigger:
 - none
 #- main
+
 resources:
 - repo: self
 
