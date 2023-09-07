@@ -57,7 +57,7 @@ stages:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'k8stfaks-default'
         namespace: 'default'
-        command: 'create'
+        command: 'apply'
         useConfigurationFile: true
         configurationType: 'inline'
         inline: 'https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml'
