@@ -52,15 +52,10 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - task: Kubernetes@1
+    - task: KubernetesManifest@1
       inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'k8stfaks-default'
+        action: 'deploy'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'k8stfaks-default'
         namespace: 'default'
-        command: 'apply'
-        arguments: '-f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml'
-        secretType: 'dockerRegistry'
-        containerRegistryType: 'Azure Container Registry'
-        azureSubscriptionEndpointForSecrets: 'AzureRM-sp-Gediminas-Palskis'
-        azureContainerRegistry: 'gpatfacr1.azurecr.io'
-        secretName: 'gpasecret1'
+        manifests: 'https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml'
