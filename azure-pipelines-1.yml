@@ -44,4 +44,15 @@ stages:
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
         commandOptions: 'tfplan'
       displayName: 'Terraform apply'
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'k8stfdev-gpatfaks1-njsdemoapp1-1694065692252'
+        namespace: 'Default'
+        command: 'create'
+        useConfigurationFile: true
+        configurationType: 'inline'
+        inline: 'kubectl create -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
 
