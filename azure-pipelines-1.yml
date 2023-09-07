@@ -45,7 +45,7 @@ stages:
         commandOptions: 'tfplan'
       displayName: 'Terraform apply'
 - stage: K8sTasks
-  displayName: Terraform infrastructure
+  displayName: Kubernetes
   jobs:
   - job: Kubernetes
     displayName: Kubernetes tasks
