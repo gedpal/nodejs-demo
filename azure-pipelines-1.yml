@@ -55,7 +55,7 @@ stages:
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'k8stfdev-gpatfaks1-njsdemoapp1-1694065692252'
+        kubernetesServiceEndpoint: 'k8stfaks-default'
         namespace: 'default'
         command: 'create'
         useConfigurationFile: true
