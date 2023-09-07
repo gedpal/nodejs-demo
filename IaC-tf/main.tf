@@ -88,6 +88,10 @@ resource "azurerm_application_gateway" "network" {
     name = local.frontend_port_name
     port = 80
   }
+  frontend_port {
+    name = local.frontend_port_name2
+    port = 80
+  }
 
   frontend_port {
     name = "httpsPort"
