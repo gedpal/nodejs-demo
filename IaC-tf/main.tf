@@ -150,16 +150,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 }
 
-resource "azurerm_kubernetes_namespace" "njsdemoapp1" {
-  name            = "njsdemoapp1"
-  depends_on      = [azurerm_kubernetes_cluster.k8s]
-}
-
-resource "azurerm_kubernetes_namespace" "njsdemoapp2" {
-  name            = "njsdemoapp2"
-  depends_on      = [azurerm_kubernetes_cluster.k8s]
-}
-
 resource "azurerm_container_registry" "acr1" {
   name                     = var.acr_name
   resource_group_name      = data.azurerm_resource_group.rg.name
