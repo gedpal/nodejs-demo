@@ -88,10 +88,6 @@ resource "azurerm_application_gateway" "network" {
     name = local.frontend_port_name
     port = 80
   }
-  frontend_port {
-    name = local.frontend_port_name2
-    port = 80
-  }
 
   frontend_port {
     name = "httpsPort"
@@ -143,7 +139,7 @@ resource "azurerm_application_gateway" "network" {
   http_listener {
     name                           = local.listener_name2
     frontend_ip_configuration_name = local.frontend_ip_configuration_name2
-    frontend_port_name             = local.frontend_port_name2
+    frontend_port_name             = local.frontend_port_name
     protocol                       = "Http"
   }
 
