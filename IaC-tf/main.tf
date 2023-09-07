@@ -126,6 +126,14 @@ resource "azurerm_application_gateway" "network" {
     request_timeout       = 1
   }
 
+  backend_http_settings {
+    name                  = local.http_setting_name2
+    cookie_based_affinity = "Disabled"
+    port                  = 3000
+    protocol              = "Http"
+    request_timeout       = 1
+  }
+
   http_listener {
     name                           = local.listener_name
     frontend_ip_configuration_name = local.frontend_ip_configuration_name
