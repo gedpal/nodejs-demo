@@ -58,4 +58,4 @@ stages:
         connectionType: 'kubernetesServiceConnection'
         kubernetesServiceConnection: 'k8stfaks-default'
         namespace: 'default'
-        manifests: 'https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml'
+        manifests: 'Manifests/deployment-rbac-AAD-PodID.yaml'
