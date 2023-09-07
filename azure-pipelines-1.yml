@@ -70,8 +70,8 @@ stages:
         azureSubscription: 'AzureRM-sp-Gediminas-Palskis'
         azureResourceGroup: 'Gediminas_Palskis_rg'
         kubernetesCluster: 'gpatfaks1'
+        namespace: default
         command: 'install'
         chartType: 'FilePath'
         chartPath: 'Charts/AGIC-config.yaml'
         arguments: 'application-gateway-kubernetes-ingress/ingress-azure --generate-name'
-        
