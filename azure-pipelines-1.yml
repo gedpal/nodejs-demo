@@ -4,7 +4,7 @@ trigger:
       - '*'
   paths:
     include:
-      - 'https://github.com/gedpal/njsdemoapp1/*'
+      - 'gedpal/njsdemoapp1/*'
 
 #- none
 #- main
