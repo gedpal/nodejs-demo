@@ -64,14 +64,18 @@ stages:
       inputs:
         helmVersion: '2.14.1'
         installKubectl: true
-    - task: HelmDeploy@0
+    - task: Bash@3
       inputs:
-        connectionType: 'Azure Resource Manager'
-        azureSubscription: 'AzureRM-sp-Gediminas-Palskis'
-        azureResourceGroup: 'Gediminas_Palskis_rg'
-        kubernetesCluster: 'gpatfaks1'
-        namespace: default
-        command: 'install'
-        chartType: 'FilePath'
-        chartPath: 'Charts/AGIC-config.yaml'
-        arguments: 'application-gateway-kubernetes-ingress/ingress-azure --generate-name'
+        targetType: 'inline'
+        script: 'helm install -f Charts/AGIC-config.yaml application-gateway-kubernetes-ingress/ingress-azure --generate-name'
+    # - task: HelmDeploy@0
+    #   inputs:
+    #     connectionType: 'Azure Resource Manager'
+    #     azureSubscription: 'AzureRM-sp-Gediminas-Palskis'
+    #     azureResourceGroup: 'Gediminas_Palskis_rg'
+    #     kubernetesCluster: 'gpatfaks1'
+    #     namespace: default
+    #     command: 'install'
+    #     chartType: 'FilePath'
+    #     chartPath: 'Charts/AGIC-config.yaml'
+    #     arguments: 'application-gateway-kubernetes-ingress/ingress-azure --generate-name'
