@@ -44,6 +44,14 @@ stages:
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
         commandOptions: 'tfplan'
       displayName: 'Terraform apply'
+- stage: K8sTasks
+  displayName: Terraform infrastructure
+  jobs:
+  - job: Kubernetes
+    displayName: Kubernetes tasks
+    pool:
+      vmImage: ubuntu-latest
+    steps:
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
