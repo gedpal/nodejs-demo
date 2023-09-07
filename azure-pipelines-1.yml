@@ -58,9 +58,9 @@ stages:
         kubernetesServiceEndpoint: 'k8stfaks-default'
         namespace: 'default'
         command: 'apply'
-        useConfigurationFile: true
-        configurationType: 'inline'
-        inline: 'https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml'
+        arguments: '-f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
-
+        azureSubscriptionEndpointForSecrets: 'AzureRM-sp-Gediminas-Palskis'
+        azureContainerRegistry: 'gpatfacr1.azurecr.io'
+        secretName: 'gpasecret1'
