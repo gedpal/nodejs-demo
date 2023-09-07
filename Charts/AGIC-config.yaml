@@ -33,8 +33,8 @@ appgw:
 # - Option 1: AAD-Pod-Identity (https://github.com/Azure/aad-pod-identity)
 armAuth:
     type: aadPodIdentity
-    identityResourceID: <identityResourceId>
-    identityClientID:  <identityClientId>
+    identityResourceID: "/subscriptions/3a42b7ad-f305-4fa5-9a8a-9310a9c7f4ad/resourceGroups/Gediminas_Palskis_rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/gpaidentity1"
+    identityClientID:  "806625cd-38be-4155-9f93-4448e150a8eb"
 
 ## Alternatively you can use Service Principal credentials
 # armAuth:
