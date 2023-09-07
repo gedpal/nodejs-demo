@@ -157,7 +157,7 @@ resource "azurerm_application_gateway" "network" {
     http_listener_name         = local.listener_name2
     backend_address_pool_name  = local.backend_address_pool_name2
     backend_http_settings_name = local.http_setting_name2
-    priority                   = 1
+    priority                   = 2
   }
 }
 
