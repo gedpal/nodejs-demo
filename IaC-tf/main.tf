@@ -4,11 +4,17 @@ data "azurerm_resource_group" "rg" {
 }
 locals {
   backend_address_pool_name      = "${azurerm_virtual_network.test.name}-beap"
+  backend_address_pool_name2      = "${azurerm_virtual_network.test.name}-beap2"
   frontend_port_name             = "${azurerm_virtual_network.test.name}-feport"
+  frontend_port_name2             = "${azurerm_virtual_network.test.name}-feport2"
   frontend_ip_configuration_name = "${azurerm_virtual_network.test.name}-feip"
+  frontend_ip_configuration_name2 = "${azurerm_virtual_network.test.name}-feip2"
   http_setting_name              = "${azurerm_virtual_network.test.name}-be-htst"
+  http_setting_name2              = "${azurerm_virtual_network.test.name}-be-htst2"
   listener_name                  = "${azurerm_virtual_network.test.name}-httplstn"
+  listener_name2                  = "${azurerm_virtual_network.test.name}-httplstn2"
   request_routing_rule_name      = "${azurerm_virtual_network.test.name}-rqrt"
+  request_routing_rule_name2      = "${azurerm_virtual_network.test.name}-rqrt2"
   app_gateway_subnet_name        = "appgwsubnet"
 }
 
@@ -54,6 +60,13 @@ resource "azurerm_public_ip" "test" {
   allocation_method   = "Static"
   sku                 = "Standard"
 }
+resource "azurerm_public_ip" "test2" {
+  name                = "publicIp2"
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
 
 resource "azurerm_application_gateway" "network" {
   name                = var.app_gateway_name
@@ -86,9 +99,19 @@ resource "azurerm_application_gateway" "network" {
     public_ip_address_id = azurerm_public_ip.test.id
   }
 
+  frontend_ip_configuration {
+    name                 = local.frontend_ip_configuration_name2
+    public_ip_address_id = azurerm_public_ip.test2.id
+  }
+
   backend_address_pool {
     name = local.backend_address_pool_name
     ip_addresses = ["192.168.0.26", "192.168.0.7", "192.168.0.9"]
+  }
+
+  backend_address_pool {
+    name = local.backend_address_pool_name2
+    ip_addresses = ["192.168.0.13", "192.168.0.19", "192.168.0.20"]
   }
 
   backend_http_settings {
@@ -105,6 +128,12 @@ resource "azurerm_application_gateway" "network" {
     frontend_port_name             = local.frontend_port_name
     protocol                       = "Http"
   }
+  http_listener {
+    name                           = local.listener_name2
+    frontend_ip_configuration_name = local.frontend_ip_configuration_name2
+    frontend_port_name             = local.frontend_port_name2
+    protocol                       = "Http"
+  }
 
   request_routing_rule {
     name                       = local.request_routing_rule_name
@@ -112,6 +141,14 @@ resource "azurerm_application_gateway" "network" {
     http_listener_name         = local.listener_name
     backend_address_pool_name  = local.backend_address_pool_name
     backend_http_settings_name = local.http_setting_name
+    priority                   = 1
+  }
+  request_routing_rule {
+    name                       = local.request_routing_rule_name2
+    rule_type                  = "Basic"
+    http_listener_name         = local.listener_name2
+    backend_address_pool_name  = local.backend_address_pool_name2
+    backend_http_settings_name = local.http_setting_name2
     priority                   = 1
   }
 }
