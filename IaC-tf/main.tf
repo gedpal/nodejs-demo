@@ -88,7 +88,7 @@ resource "azurerm_application_gateway" "network" {
 
   backend_address_pool {
     name = local.backend_address_pool_name
-    ip_addresses = ["10.0.104.29"]
+    ip_addresses = ["192.168.0.26", "192.168.0.7", "192.168.0.9"]
   }
 
   backend_http_settings {
