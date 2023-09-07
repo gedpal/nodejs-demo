@@ -1,5 +1,12 @@
 trigger:
-- none
+  branches:
+    include:
+      - '*'
+  paths:
+    include:
+      - 'https://github.com/gedpal/njsdemoapp1/*'
+
+#- none
 #- main
 resources:
 - repo: self
