@@ -56,7 +56,7 @@ stages:
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'k8stfdev-gpatfaks1-njsdemoapp1-1694065692252'
-        namespace: 'Default'
+        namespace: 'default'
         command: 'create'
         useConfigurationFile: true
         configurationType: 'inline'
