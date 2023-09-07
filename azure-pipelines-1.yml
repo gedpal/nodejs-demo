@@ -60,8 +60,18 @@ stages:
     #     kubernetesServiceConnection: 'k8stfaks-default'
     #     namespace: 'default'
     #     manifests: 'Manifests/deployment-rbac-AAD-PodID.yaml'
-    # - task: HelmInstaller@0
-    #   inputs:
-    #     helmVersion: '2.14.1'
-    #     installKubectl: true
+    - task: HelmInstaller@0
+      inputs:
+        helmVersion: '2.14.1'
+        installKubectl: true
+    - task: HelmDeploy@0
+      inputs:
+        connectionType: 'Azure Resource Manager'
+        azureSubscription: 'AzureRM-sp-Gediminas-Palskis'
+        azureResourceGroup: 'Gediminas_Palskis_rg'
+        kubernetesCluster: 'gpatfaks1'
+        command: 'install'
+        chartType: 'FilePath'
+        chartPath: 'Charts/AGIC-config.yaml'
+        arguments: 'application-gateway-kubernetes-ingress/ingress-azure --generate-name'
         
