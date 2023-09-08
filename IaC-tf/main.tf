@@ -60,13 +60,13 @@ resource "azurerm_public_ip" "test" {
   allocation_method   = "Static"
   sku                 = "Standard"
 }
-resource "azurerm_public_ip" "test2" {
+/* resource "azurerm_public_ip" "test2" {
   name                = "publicIp2"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
-}
+} */
 
 resource "azurerm_application_gateway" "network" {
   name                = var.app_gateway_name
@@ -99,10 +99,10 @@ resource "azurerm_application_gateway" "network" {
     public_ip_address_id = azurerm_public_ip.test.id
   }
 
-  frontend_ip_configuration {
+/*   frontend_ip_configuration {
     name                 = local.frontend_ip_configuration_name2
     public_ip_address_id = azurerm_public_ip.test2.id
-  }
+  } */
 
   backend_address_pool {
     name = local.backend_address_pool_name
@@ -135,12 +135,14 @@ resource "azurerm_application_gateway" "network" {
     frontend_ip_configuration_name = local.frontend_ip_configuration_name
     frontend_port_name             = local.frontend_port_name
     protocol                       = "Http"
+    host_names = [ "app1.grit.lt"]
   }
   http_listener {
     name                           = local.listener_name2
-    frontend_ip_configuration_name = local.frontend_ip_configuration_name2
+    frontend_ip_configuration_name = local.frontend_ip_configuration_name
     frontend_port_name             = local.frontend_port_name
     protocol                       = "Http"
+    host_names = [ "app2.grit.lt"]
   }
 
   request_routing_rule {
