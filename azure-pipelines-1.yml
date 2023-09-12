@@ -29,22 +29,27 @@ stages:
         backendAzureRmContainerName: 'tf-state'
         backendAzureRmKey: 'tf/terraform.tfstate'
       displayName: 'Terraform init'
-    - task: TerraformTaskV4@4
-      inputs:
-        provider: 'azurerm'
-        command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
-        environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
-        commandOptions: '-out=tfplan'
-      displayName: 'Terraform plan'
-    - task: TerraformTaskV4@4
-      inputs:
-        provider: 'azurerm'
-        command: 'apply'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
-        environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
-        commandOptions: 'tfplan'
-      displayName: 'Terraform apply'
+    # - task: TerraformTaskV4@4
+    #   inputs:
+    #     provider: 'azurerm'
+    #     command: 'plan'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
+    #     environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
+    #     commandOptions: '-out=tfplan'
+    #   displayName: 'Terraform plan'
+    # - task: TerraformTaskV4@4
+    #   inputs:
+    #     provider: 'azurerm'
+    #     command: 'apply'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
+    #     environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
+    #     commandOptions: 'tfplan'
+    #   displayName: 'Terraform apply'
+      - task: TerraformTaskV4@4
+        inputs:
+          provider: 'azurerm'
+          command: 'destroy'
+          environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
 # - stage: K8sTasks
 #   displayName: Kubernetes
 #   jobs:
