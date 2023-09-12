@@ -47,6 +47,7 @@ stages:
     #   displayName: 'Terraform apply'
     - task: TerraformTaskV4@4
       inputs:
+        workingDirectory: '$(System.DefaultWorkingDirectory)/IaC-tf/'
         provider: 'azurerm'
         command: 'destroy'
         environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
