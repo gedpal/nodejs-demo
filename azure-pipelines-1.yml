@@ -45,11 +45,11 @@ stages:
     #     environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
     #     commandOptions: 'tfplan'
     #   displayName: 'Terraform apply'
-      - task: TerraformTaskV4@4
-        inputs:
-          provider: 'azurerm'
-          command: 'destroy'
-          environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'destroy'
+        environmentServiceNameAzureRM: 'AzureRM-sp-Gediminas-Palskis'
 # - stage: K8sTasks
 #   displayName: Kubernetes
 #   jobs:
